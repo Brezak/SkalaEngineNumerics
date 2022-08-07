@@ -1,8 +1,11 @@
 [package]
-name = "SkalaEngineNumerics"
+name = "skala_engine_numerics"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+fixed = "1.17.0"
+fixed-sqrt = "0.2.5"
+cordic = "0.1.5"
