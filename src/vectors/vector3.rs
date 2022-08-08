@@ -5,23 +5,25 @@ use crate::vectors::SignedFractional;
 
 
 #[derive(Eq, PartialEq, Debug, Default, Hash, Copy, Clone)]
-pub struct Vec2 {
+pub struct Vec3 {
     pub x: SignedFractional,
     pub y: SignedFractional,
+    pub z: SignedFractional,
 }
 
-impl Vec2 {
+impl Vec3 {
     pub const ZERO: Self = Self {
         x: SignedFractional::ZERO,
         y: SignedFractional::ZERO,
+        z: SignedFractional::ZERO,
     };
 
-    pub const fn new(x: SignedFractional, y: SignedFractional) -> Self {
-        Self { x, y }
+    pub const fn new(x: SignedFractional, y: SignedFractional, z: SignedFractional) -> Self {
+        Self { x, y, z }
     }
 
     pub fn len_pow2(&self) -> SignedFractional {
-        self.x * self.x + self.y * self.y
+        self.x * self.x + self.y * self.y + self.z * self.z
     }
 
     pub fn len(&self) -> SignedFractional {
@@ -38,6 +40,7 @@ impl Vec2 {
         Self {
             x: self.x / len,
             y: self.y / len,
+            z: self.z / len,
         }
     }
 
@@ -56,144 +59,156 @@ impl Vec2 {
         Some(Self {
             x: self.x / len,
             y: self.y / len,
+            z: self.z / len,
         })
     }
 }
 
-impl From<(SignedFractional, SignedFractional)> for Vec2 {
-    fn from(n: (SignedFractional, SignedFractional)) -> Self {
-        Self { x: n.0, y: n.1 }
+impl From<(SignedFractional, SignedFractional, SignedFractional)> for Vec3 {
+    fn from(n: (SignedFractional, SignedFractional, SignedFractional)) -> Self {
+        Self { x: n.0, y: n.1, z: n.2 }
     }
 }
 
-impl From<Vec2> for (SignedFractional, SignedFractional) {
-    fn from(n: Vec2) -> Self {
-        (n.x, n.y)
+impl From<Vec3> for (SignedFractional, SignedFractional, SignedFractional) {
+    fn from(n: Vec3) -> Self {
+        (n.x, n.y, n.z)
     }
 }
 
-impl Neg for Vec2 {
+impl Neg for Vec3 {
     type Output = Self;
 
     fn neg(self) -> Self::Output {
         Self {
             x: -self.x,
             y: -self.y,
+            z: -self.z,
         }
     }
 }
 
-impl Add for Vec2 {
+impl Add for Vec3 {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
         Self {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
+            z: self.z + rhs.z,
         }
     }
 }
 
-impl Add<(SignedFractional, SignedFractional)> for Vec2 {
+impl Add<(SignedFractional, SignedFractional, SignedFractional)> for Vec3 {
     type Output = Self;
 
-    fn add(self, rhs: (SignedFractional, SignedFractional)) -> Self::Output {
+    fn add(self, rhs: (SignedFractional, SignedFractional, SignedFractional)) -> Self::Output {
         self + Into::<Self>::into(rhs)
     }
 }
 
-impl AddAssign for Vec2 {
+impl AddAssign for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
         self.x += rhs.x;
         self.y += rhs.y;
+        self.z += rhs.z;
     }
 }
 
-impl AddAssign<(SignedFractional, SignedFractional)> for Vec2 {
-    fn add_assign(&mut self, rhs: (SignedFractional, SignedFractional)) {
+impl AddAssign<(SignedFractional, SignedFractional, SignedFractional)> for Vec3 {
+    fn add_assign(&mut self, rhs: (SignedFractional, SignedFractional, SignedFractional)) {
         self.x += rhs.0;
         self.y += rhs.1;
+        self.z += rhs.2;
     }
 }
 
-impl Sub for Vec2 {
-    type Output = Vec2;
+impl Sub for Vec3 {
+    type Output = Vec3;
 
     fn sub(self, rhs: Self) -> Self::Output {
         Self {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
+            z: self.z - rhs.z
         }
     }
 }
 
-impl Sub<(SignedFractional, SignedFractional)> for Vec2 {
+impl Sub<(SignedFractional, SignedFractional, SignedFractional)> for Vec3 {
     type Output = Self;
 
-    fn sub(self, rhs: (SignedFractional, SignedFractional)) -> Self::Output {
+    fn sub(self, rhs: (SignedFractional, SignedFractional, SignedFractional)) -> Self::Output {
         self - Into::<Self>::into(rhs)
     }
 }
 
-impl SubAssign for Vec2 {
+impl SubAssign for Vec3 {
     fn sub_assign(&mut self, rhs: Self) {
         self.x -= rhs.x;
         self.y -= rhs.y;
+        self.z -= rhs.z;
     }
 }
 
-impl SubAssign<(SignedFractional, SignedFractional)> for Vec2 {
-    fn sub_assign(&mut self, rhs: (SignedFractional, SignedFractional)) {
+impl SubAssign<(SignedFractional, SignedFractional, SignedFractional)> for Vec3 {
+    fn sub_assign(&mut self, rhs: (SignedFractional, SignedFractional, SignedFractional)) {
         self.x -= rhs.0;
         self.y -= rhs.1;
+        self.z -= rhs.2;
     }
 }
 
-impl Mul<SignedFractional> for Vec2 {
+impl Mul<SignedFractional> for Vec3 {
     type Output = Self;
 
     fn mul(self, rhs: SignedFractional) -> Self::Output {
         Self {
             x: self.x * rhs,
             y: self.y * rhs,
+            z: self.z * rhs
         }
     }
 }
 
-impl MulAssign<SignedFractional> for Vec2 {
+impl MulAssign<SignedFractional> for Vec3 {
     fn mul_assign(&mut self, rhs: SignedFractional) {
         self.x *= rhs;
         self.y *= rhs;
+        self.z *= rhs;
     }
 }
 
-impl Div<SignedFractional> for Vec2 {
+impl Div<SignedFractional> for Vec3 {
     type Output = Self;
 
     fn div(self, rhs: SignedFractional) -> Self::Output {
         Self {
             x: self.x / rhs,
             y: self.y / rhs,
+            z: self.z / rhs
         }
     }
 }
 
-impl DivAssign<SignedFractional> for Vec2 {
+impl DivAssign<SignedFractional> for Vec3 {
     fn div_assign(&mut self, rhs: SignedFractional) {
         self.x /= rhs;
         self.y /= rhs;
+        self.z /= rhs;
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::vectors::{SignedFractional, Vec2};
+    use crate::vectors::{SignedFractional, Vec3};
 
     #[test]
     // Tests that derive(Eq) continues to be correct
     fn sanity_check() {
-        let x = Vec2::new(2.into(), 3.into());
-        let y = Vec2::new(5.into(), 7.into());
+        let x = Vec3::new(2.into(), 3.into(), 6.into());
+        let y = Vec3::new(5.into(), 7.into(), 9.into());
 
         assert_eq!(x, x);
         assert_ne!(x, y);
@@ -201,57 +216,57 @@ mod test {
 
     #[test]
     fn from_tuple() {
-        let x: Vec2 = (5.into(), 7.into()).into();
-        let y = Vec2::new(5.into(), 7.into());
+        let x: Vec3 = (5.into(), 7.into(), 9.into()).into();
+        let y = Vec3::new(5.into(), 7.into(), 9.into());
 
         assert_eq!(x, y);
     }
 
     #[test]
     fn into_tuple() {
-        let x: (SignedFractional, SignedFractional) = Vec2::new(5.into(), 7.into()).into();
-        let y: (SignedFractional, SignedFractional) = (5.into(), 7.into());
+        let x: (SignedFractional, SignedFractional, SignedFractional) = Vec3::new(5.into(), 7.into(), 9.into()).into();
+        let y: (SignedFractional, SignedFractional, SignedFractional) = (5.into(), 7.into(), 9.into());
 
         assert_eq!(x, y);
     }
 
     #[test]
     fn addition() {
-        let x = Vec2::new(2.into(), 3.into());
-        let y = Vec2::new(5.into(), 7.into());
+        let x = Vec3::new(2.into(), 3.into(), 9.into());
+        let y = Vec3::new(5.into(), 7.into(), 9.into());
 
-        assert_eq!(x + y, Vec2::new(7.into(), 10.into()));
+        assert_eq!(x + y, Vec3::new(7.into(), 10.into(), 18.into()));
     }
 
     #[test]
     fn length() {
-        let x = Vec2::new(3.into(), 4.into());
+        let x = Vec3::new(3.into(), 4.into(), 12.into());
 
-        assert_eq!(x.len_pow2(), 25);
-        assert_eq!(x.len(), 5);
+        assert_eq!(x.len_pow2(), 169);
+        assert_eq!(x.len(), 13);
     }
 
     #[test]
     fn scalar_multiplication() {
-        let x = Vec2::new(3.into(), 4.into());
-        let y = Vec2::new(6.into(), 8.into());
+        let x = Vec3::new(3.into(), 4.into(),5.into());
+        let y = Vec3::new(6.into(), 8.into(), 10.into());
 
         assert_eq!(x * 2.into(), y);
     }
 
     #[test]
     fn scalar_division() {
-        let x = Vec2::new(6.into(), 8.into());
-        let y = Vec2::new(3.into(), 4.into());
+        let x = Vec3::new(6.into(), 8.into(), 10.into());
+        let y = Vec3::new(3.into(), 4.into(), 5.into());
 
         assert_eq!(x / 2.into(), y);
     }
 
     #[test]
     fn vector_normalization() {
-        let x = Vec2::new(6.into(), 0.into());
-        let y = Vec2::new(1.into(), 0.into());
-        let wrong = Vec2::ZERO;
+        let x = Vec3::new(6.into(), 0.into(), 0.into());
+        let y = Vec3::new(1.into(), 0.into(), 0.into());
+        let wrong = Vec3::ZERO;
 
         assert_eq!(x.get_normalized(), y);
         assert_eq!(wrong.try_get_normalized(), None)
