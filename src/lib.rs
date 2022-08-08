@@ -1,7 +1,6 @@
 #![deny(unsafe_code)]
 #![warn(missing_docs)]
 
-mod macros;
 pub mod vectors;
 
 #[cfg(test)]
