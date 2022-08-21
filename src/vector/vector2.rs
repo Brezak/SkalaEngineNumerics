@@ -1,8 +1,6 @@
-use fixed::types::I48F16;
+use crate::SignedFractional;
 use fixed_sqrt::*;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
-use crate::vectors::SignedFractional;
-
 
 #[derive(Eq, PartialEq, Debug, Default, Hash, Copy, Clone)]
 pub struct Vec2 {
@@ -187,7 +185,8 @@ impl DivAssign<SignedFractional> for Vec2 {
 
 #[cfg(test)]
 mod test {
-    use crate::vectors::{SignedFractional, Vec2};
+    use crate::vector::Vec2;
+    use crate::SignedFractional;
 
     #[test]
     // Tests that derive(Eq) continues to be correct
