@@ -1,35 +1,109 @@
 use crate::SignedFractional;
-use fixed_sqrt::*;
+use fixed_sqrt::FixedSqrt;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 #[derive(Eq, PartialEq, Debug, Default, Hash, Copy, Clone)]
+/// A 2d vector
 pub struct Vec2 {
+    #[allow(missing_docs)]
     pub x: SignedFractional,
+    #[allow(missing_docs)]
     pub y: SignedFractional,
 }
 
 impl Vec2 {
+    /// A `vec2` with both it's coordinates set to zero
     pub const ZERO: Self = Self {
         x: SignedFractional::ZERO,
         y: SignedFractional::ZERO,
     };
 
+    /// Creates a new vector from given coordinates
+    /// # Example
+    ///
+    /// ```
+    /// # use skala_engine_numerics::Vec2;
+    /// let vector = Vec2::new(0.into(), 0.into());
+    ///
+    /// assert_eq!(vector, Vec2::ZERO);
+    /// ```
+    #[must_use = "Creating a vector without using it is just a waste of processing time"]
     pub const fn new(x: SignedFractional, y: SignedFractional) -> Self {
         Self { x, y }
     }
 
+    /// Calculates the magnitude of a vector without squaring the result
+    ///
+    /// Useful when checking if vector is a [unit vector](https://en.wikipedia.org/wiki/Unit_vector) without wasting cpu cycles
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use skala_engine_numerics::{SignedFractional, Vec2};
+    /// let vector = Vec2::new(1.into(), 0.into());
+    /// let length: SignedFractional = 1.into();
+    ///
+    /// assert_eq!(vector.len_pow2(), length);
+    /// ```
+    #[must_use]
     pub fn len_pow2(&self) -> SignedFractional {
         self.x * self.x + self.y * self.y
     }
 
+    /// Calculates the magnitude of a vector
+    ///
+    /// If checking if a vector is a [unit vector](https://en.wikipedia.org/wiki/Unit_vector) prefer using `len_pow2`
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use skala_engine_numerics::{SignedFractional, Vec2};
+    /// let vector = Vec2::new(4.into(), 0.into());
+    /// let length: SignedFractional = 16.into();
+    ///
+    ///
+    /// assert_eq!(vector.len_pow2(), length);
+    /// ```
+    #[must_use]
     pub fn len(&self) -> SignedFractional {
         self.len_pow2().sqrt()
     }
 
+    /// Modifies vector to have magnitude 1
+    ///
+    /// # Panics
+    /// When vector is a zero vector
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use skala_engine_numerics::Vec2;
+    /// let mut vector = Vec2::new(4.into(), 0.into());
+    /// vector.normalize();
+    ///
+    /// let normalized = Vec2::new(1.into(), 0.into());
+    ///
+    /// assert_eq!(vector, normalized);
+    /// ```
     pub fn normalize(&mut self) {
         *self /= self.len();
     }
 
+    /// Creates a new `vec2` with same direction as `self` but magnitude 1
+    ///
+    /// # Panics
+    /// When vector is a zero vector
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use skala_engine_numerics::Vec2;
+    /// let mut vector = Vec2::new(4.into(), 0.into());
+    /// let normalized = Vec2::new(1.into(), 0.into());
+    ///
+    /// assert_eq!(vector.get_normalized(), normalized);
+    /// ```
+    #[must_use]
     pub fn get_normalized(&self) -> Self {
         let len = self.len();
 
@@ -43,6 +117,20 @@ impl Vec2 {
     #[cold]
     fn considers_this_unlikely_to_happen() {}
 
+    /// Creates a new `vec2` with same direction as `self` but magnitude 1
+    /// If `self` is a zero vector returns None otherwise returns created vector
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use skala_engine_numerics::Vec2;
+    /// let mut vector = Vec2::new(4.into(), 0.into());
+    /// let normalized = Vec2::new(1.into(), 0.into());
+    ///
+    /// assert_eq!(vector.try_get_normalized(), Some(normalized));
+    /// assert_eq!(Vec2::ZERO.try_get_normalized(), None);
+    /// ```
+    #[must_use]
     pub fn try_get_normalized(&self) -> Option<Self> {
         let len = self.len();
 

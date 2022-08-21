@@ -2,10 +2,14 @@ use crate::SignedFractional;
 use fixed_sqrt::*;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+/// A 3d vector.
 #[derive(Eq, PartialEq, Debug, Default, Hash, Copy, Clone)]
 pub struct Vec3 {
+    #[allow(missing_docs)]
     pub x: SignedFractional,
+    #[allow(missing_docs)]
     pub y: SignedFractional,
+    #[allow(missing_docs)]
     pub z: SignedFractional,
 }
 
@@ -347,7 +351,6 @@ mod test {
     #[test]
     fn vector_normalization() {
         let x = Vec3::new(4, 4, 4);
-        let y = Vec3::new(1, 0, 0);
         let wrong = Vec3::ZERO;
 
         assert_eq!(x.get_normalized().magnitude(), 1);
