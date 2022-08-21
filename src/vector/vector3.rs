@@ -1,5 +1,5 @@
 use crate::SignedFractional;
-use fixed_sqrt::*;
+use fixed_sqrt::FixedSqrt;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 /// A 3d vector.
@@ -50,9 +50,10 @@ impl Vec3 {
     /// let x = Vec3::new(1, 0, 0);
     ///
     /// // Proving we're working with a unit vector
-    /// assert_eq!(x.magintude_pow2(), 1);
+    /// assert_eq!(x.magnitude_pow2(), 1);
     /// ```
-    pub fn magintude_pow2(&self) -> SignedFractional {
+    #[must_use]
+    pub fn magnitude_pow2(&self) -> SignedFractional {
         self.x * self.x + self.y * self.y + self.z * self.z
     }
 
@@ -64,8 +65,9 @@ impl Vec3 {
     ///
     /// assert_eq!(x.magnitude(), 6);
     /// ```
+    #[must_use]
     pub fn magnitude(&self) -> SignedFractional {
-        self.magintude_pow2().sqrt()
+        self.magnitude_pow2().sqrt()
     }
 
     /// Sets the magnitude of this [`Vec3`] to one
@@ -100,6 +102,7 @@ impl Vec3 {
     ///
     /// assert_eq!(x.get_normalized(), Vec3::new(1, 0, 0));
     /// ```
+    #[must_use]
     pub fn get_normalized(&self) -> Self {
         let len = self.magnitude();
 
@@ -112,7 +115,7 @@ impl Vec3 {
 
     #[inline]
     #[cold]
-    /// stable equivalent of std::intrinsics::unlikely
+    /// stable equivalent of `std::intrinsics::unlikely`
     fn considers_this_unlikely_to_happen() {}
 
     /// Creates a [`Vec3`] with magnitude equal to one and rotation equal to this [`Vec3`]
@@ -126,6 +129,7 @@ impl Vec3 {
     /// assert_eq!(x.try_get_normalized(), Some(Vec3::new(1, 0, 0)));
     /// assert_eq!(zero.try_get_normalized(), None);
     /// ```
+    #[must_use]
     pub fn try_get_normalized(&self) -> Option<Self> {
         let len = self.magnitude();
 
@@ -327,7 +331,7 @@ mod test {
         let x = Vec3::new(3, 4, 12);
         let y = Vec3::new(2, 4, 4);
 
-        assert_eq!(x.magintude_pow2(), 169);
+        assert_eq!(x.magnitude_pow2(), 169);
         assert_eq!(x.magnitude(), 13);
         assert_eq!(y.magnitude(), 6);
     }
@@ -354,6 +358,6 @@ mod test {
         let wrong = Vec3::ZERO;
 
         assert_eq!(x.get_normalized().magnitude(), 1);
-        assert_eq!(wrong.try_get_normalized(), None)
+        assert_eq!(wrong.try_get_normalized(), None);
     }
 }
