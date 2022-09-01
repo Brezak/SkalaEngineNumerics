@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["traits","Additional traits"]],"trait":[["FixedSqrt","Square root algorithm for fixed-point numbers"]]};

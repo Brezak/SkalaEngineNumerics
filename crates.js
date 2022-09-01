@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["az","bytemuck","cordic","fixed","fixed_sqrt","half","integer_sqrt","num_traits","skala_engine_numerics","typenum"];

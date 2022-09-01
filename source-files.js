@@ -1,0 +1,12 @@
+var sourcesIndex = {};
+sourcesIndex["az"] = {"name":"","files":["float.rs","int.rs","lib.rs"]};
+sourcesIndex["bytemuck"] = {"name":"","files":["anybitpattern.rs","checked.rs","contiguous.rs","internal.rs","lib.rs","no_uninit.rs","offset_of.rs","pod.rs","pod_in_option.rs","transparent.rs","zeroable.rs","zeroable_in_option.rs"]};
+sourcesIndex["cordic"] = {"name":"","files":["cordic_number.rs","lib.rs"]};
+sourcesIndex["fixed"] = {"name":"","dirs":[{"name":"types","files":["extra.rs","mod.rs"]}],"files":["arith.rs","bytes.rs","cast.rs","cmp.rs","consts.rs","convert.rs","debug_hex.rs","display.rs","f128.rs","float_helper.rs","from_str.rs","helpers.rs","impl_bytemuck.rs","int256.rs","int_helper.rs","inv_lerp.rs","lerp.rs","lib.rs","log.rs","log10.rs","macros.rs","macros_const.rs","macros_frac.rs","macros_from_to.rs","macros_no_frac.rs","macros_round.rs","prim_traits.rs","traits.rs","traits_bits.rs","unwrapped.rs","wrapping.rs"]};
+sourcesIndex["fixed_sqrt"] = {"name":"","files":["lib.rs","traits.rs"]};
+sourcesIndex["half"] = {"name":"","dirs":[{"name":"bfloat","files":["convert.rs"]},{"name":"binary16","files":["convert.rs"]}],"files":["bfloat.rs","binary16.rs","leading_zeros.rs","lib.rs","slice.rs"]};
+sourcesIndex["integer_sqrt"] = {"name":"","files":["lib.rs"]};
+sourcesIndex["num_traits"] = {"name":"","dirs":[{"name":"ops","files":["checked.rs","euclid.rs","inv.rs","mod.rs","mul_add.rs","overflowing.rs","saturating.rs","wrapping.rs"]}],"files":["bounds.rs","cast.rs","float.rs","identities.rs","int.rs","lib.rs","macros.rs","pow.rs","sign.rs"]};
+sourcesIndex["skala_engine_numerics"] = {"name":"","dirs":[{"name":"vector","files":["vector2.rs","vector3.rs"]}],"files":["lib.rs","vector.rs"]};
+sourcesIndex["typenum"] = {"name":"","files":["array.rs","bit.rs","int.rs","lib.rs","marker_traits.rs","operator_aliases.rs","private.rs","type_operators.rs","uint.rs"]};
+createSourceSidebar();
