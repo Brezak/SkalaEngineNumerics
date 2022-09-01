@@ -25,11 +25,12 @@ jobs:
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
-    - name: Build docs &&
+    - name: Build docs
       run: |
         cargo doc
         # Point site to correct index.html
         echo "<meta http-equiv=\"refresh\" content=\"0; url=skala_engine_numerics\">" > index.html
+        cat index.html
     
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
