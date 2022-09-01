@@ -29,8 +29,8 @@ jobs:
       run: |
         cargo doc
         # Point site to correct index.html
-        echo "<meta http-equiv=\"refresh\" content=\"0; url=skala_engine_numerics\">" > index.html
-        cat index.html
+        echo "<meta http-equiv=\"refresh\" content=\"0; url=skala_engine_numerics\">" > ./target/doc/index.html
+        cat ./target/doc/index.html
     
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
